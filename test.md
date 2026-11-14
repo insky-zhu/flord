@@ -1,3 +1,0 @@
-hello,nihao!
-
-你好啊！
