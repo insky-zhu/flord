@@ -1,0 +1,23 @@
+[
+  {
+    "text": "今天的风很轻，适合把脑海里的想法慢慢写下来。",
+    "score": 1.0,
+    "label": "偏积极",
+    "pinyin": "jīn tiān de fēng hěn qīng ， shì hé bǎ nǎo hǎi lǐ de xiǎng fǎ màn màn xiě xià lái 。",
+    "created_at": "2026-11-20T23:29:37+00:00"
+  },
+  {
+    "text": "今天天气不错，希望一切顺利吧",
+    "score": 0.89,
+    "label": "偏积极",
+    "pinyin": "jīn tiān tiān qì bù cuò ， xī wàng yī qiè shùn lì ba",
+    "created_at": "2026-11-20T23:30:29+00:00"
+  },
+  {
+    "text": "衣服还没有收到，酒店服务一般",
+    "score": 0.34,
+    "label": "偏消极",
+    "pinyin": "yī fú hái méi yǒu shōu dào ， jiǔ diàn fú wù yì bān",
+    "created_at": "2026-11-20T23:31:25+00:00"
+  }
+]
