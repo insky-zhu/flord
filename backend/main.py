@@ -3,10 +3,13 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from pypinyin import lazy_pinyin, Style
 from snownlp import SnowNLP
-from storage import save_record, get_history
+from storage import init_db, save_record, get_history
 from datetime import datetime, timezone
 
+
 app = FastAPI()
+
+init_db()
 
 app.add_middleware(
     CORSMiddleware,
@@ -64,4 +67,4 @@ def analyze(req: AnalyzeRequest):
 
 @app.get("/api/history")
 def history():
-    return get_history()
+    return get_history(3)
