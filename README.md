@@ -1,34 +1,35 @@
-# zero-to-tech-5-5 · 前端替换文件（模块 5.5 配套代码）
+# zero-to-tech-6-6 · 前端替换文件（模块 6.6 配套代码）
 
-这一节前端要改的都在 `components/` 和 `css/` 下，这里只放**改动的文件**，方便你直接覆盖，不用一行行敲。其余文件（`app/`、`data/site.js`、其它 css、后端）都不用动。
+这一节前端要改的都在 `components/` 和 `css/` 下，这里只放**改动的文件**，方便你直接覆盖，不用一行行敲。其余文件（`app/`、`data/site.js`、其它 css）都不用动。
 
-> 这不是一个能独立跑的工程，是"替换用的文件"。后端是你在模块 5 里一路搭起来的那个，跟着这一节课件给它加上 CORS 即可。
+> 这不是一个能独立跑的工程，是"替换用的文件"。后端是你在模块 6 一路搭起来的那个。
 
 ## 改了哪些文件
 
 ```
 components/
-  HomeView.jsx      ← 变客户端组件；useEffect 去 GET /api/profile，setData 更新界面
-  TextLabView.jsx   ← 变客户端组件；把 result 状态提升到这里，下发给两张卡
-  InputCard.jsx     ← 点"开始分析"→ POST /api/analyze，结果经 onResult 交给父组件
-  ResultCard.jsx    ← 改成显示父组件传来的 result（无结果时用默认占位）
+  HistoryModal.jsx  ← 新增：历史记录弹窗，用 .map() 把数组逐条列出来
+  ResultCard.jsx    ← 只加了右上角那个"历史记录"按钮
+  TextLabView.jsx   ← 多两份 state（历史数据、弹窗开关），点开时才去 GET /api/history
 css/
-  lab.css           ← 新增 .lab-error 样式（请求失败时的红色提示）
+  lab.css           ← 新增按钮与弹窗的样式
 ```
 
-`HomeView` / `InputCard` 里都用 `try/catch` 接住了请求失败：主页失败就保持 `site.js` 打底并打到控制台，输入卡失败就在按钮上方给一行提示——界面不会无声崩掉。（这一节不展开讲这部分语法，代码给你备着。）
+历史放在**弹窗**里，而不是在页面底部再加一张卡——这样不会把文字实验室的页面撑得很长，对原来的两卡布局打扰最小。
+
+弹窗是**点开的那一刻**才去请求 `/api/history` 的，没必要每次进页面都拉一遍。
 
 ## 怎么用
 
-课件到"前端直接替换"这一步时，用这些文件覆盖你 `~/zero-to-tech/` 下的同名文件即可。
+课件到"把历史显示出来"这一步时，用这些文件覆盖你 `~/zero-to-tech/` 下的同名文件即可。
 
 ```bash
 git clone https://github.com/joylibo/zero-to-tech-demos.git
-cp zero-to-tech-demos/zero-to-tech-5-5/components/*.jsx ~/zero-to-tech/components/
-cp zero-to-tech-demos/zero-to-tech-5-5/css/lab.css      ~/zero-to-tech/css/
+cp zero-to-tech-demos/zero-to-tech-6-6/components/*.jsx ~/zero-to-tech/components/
+cp zero-to-tech-demos/zero-to-tech-6-6/css/lab.css      ~/zero-to-tech/css/
 ```
 
 ## 两点说明
 
-- 后端地址暂时**写死**成 `http://localhost:8000`。跟着课件，这一节最后会把它收进 `.env.local`。
-- 要看到"来自后端"的数据，得让你模块 5 的后端跑在 8000 端口、并按课件配好 CORS；后端没跑或跨源被拦时，主页会**回退**显示 `data/site.js` 的打底数据，文字实验室点"开始分析"会给一行错误提示。
+- **时间显示做了本地化。** 后端存的是 UTC（6.3 立的规矩），`HistoryModal.jsx` 里的 `formatTime()` 负责转成你所在时区再显示——所以列表上看到的是本地时间，不是数据库里那串 `+00:00`。
+- **这一版还没有会话。** 谁来访问，`/api/history` 返回的都是同一份"全部历史"——这正是课件要你亲眼看见的问题。跟着课件往下做，加上 cookie 会话之后，两处 `fetch` 还要各加一句 `credentials: "include"`。
